@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package TestCode;
+
+message GameState {
+    float sensor0 = 1;
+    float sensor1 = 2;
+    float sensor2 = 3;
+    float sensor4 = 4;
+
+    float velX = 5;
+    float velY = 6;
+    float velZ = 7;
+
+    float rotX = 8;
+    float rotY = 9;
+    float rotZ = 10;
+    
+    bytes image = 11;
+}
