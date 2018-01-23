@@ -3,6 +3,9 @@ import sys
 from random import randint
 from struct import *
 import stateMessage_pb2
+import cv2 as cv
+import numpy as np
+import base64
 
 #set up actions
 actions = ["FD","BK","RT","LT","ST"]
@@ -27,22 +30,29 @@ while True:
 
         # Recieve the data in small chunks and reTransmit it
         while True:
-            data = connection.recv(70)
+            data = connection.recv(46000)
             
             sendData = actions[randint(0,4)]
             sendData = sendData.encode('utf-8')
             #print('recieved {!r}'.format(data))
 
-            print('recieved: ')
-            print(data)
+            #print('recieving data')
 
             try:
                 gameState = stateMessage_pb2.GameState()
                 gameState.ParseFromString(data)
-                print('Parsed data: ')
-                print(gameState.rotX)
-            except:
-                print('Exception in parsing')
+                img = gameState.image
+
+                bArr = bytearray(img)
+
+                npImage = np.frombuffer(bArr, dtype=np.uint8)
+
+                deCoded = cv.imdecode(npImage, cv.IMREAD_UNCHANGED)
+                cv.imshow('feed', deCoded)
+                cv.waitKey(2)
+                #cv.imshow('feed',img)
+            except Exception as e:
+                print(e)
 
             if data:
                 #print('sending data back to the client')
