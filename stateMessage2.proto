@@ -6,7 +6,7 @@ message GameState {
     float sensor0 = 1;
     float sensor1 = 2;
     float sensor2 = 3;
-    float sensor4 = 4;
+    float sensor3 = 4;
 
     float velX = 5;
     float velY = 6;
